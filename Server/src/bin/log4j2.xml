@@ -8,7 +8,7 @@
             name="Syslog"
             host="127.0.0.1"
             port="514"
-            protocol="UDP"
+            protocol="TCP"
             format="RFC5424"
             appName="mescedia-AS2-Server"
             facility="LOCAL3"

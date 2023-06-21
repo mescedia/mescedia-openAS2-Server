@@ -43,7 +43,6 @@ public class Log4J2Logger extends BaseLogger {
     }
 
     protected void doLog(Throwable t, boolean terminated) {
-        // appendToFile(getFormatter().format(t, terminated));
         appendToFile(new Level("error"), getFormatter().format(t, terminated));
     }
 }
