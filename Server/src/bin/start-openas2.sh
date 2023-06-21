@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-# purpose: runs the OpenAS2 application     
+# purpose: runs the OpenAS2 application
 x=`basename $0`
 
 binDir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -22,7 +22,11 @@ fi
 # Set some of the base system properties for the Java environment and logging
 # remove -Dorg.apache.commons.logging.Log=org.openas2.logging.Log if using another logging package
 #
-EXTRA_PARMS="$EXTRA_PARMS -Xms32m -Xmx384m -Dorg.apache.commons.logging.Log=org.openas2.logging.Log"
+
+# EXTRA_PARMS="-Xms320m -Xmx3840m -Dlog4j.configuration=file:/opt/mescedia.AS2/bin/log4j.properties -Dorg.apache.commons.logging.Log=org.openas2.logging.Log"
+# EXTRA_PARMS="-Xms320m -Xmx3840m -Dlog4j2.configurationFile=${binDir}/log4j2.xml -Dlog4j2.debug=true"
+
+EXTRA_PARMS="-Xms320m -Xmx3840m -Dlog4j2.configurationFile=${binDir}/log4j2.xml -Dlog4j2.debug=false"
 
 # Set the config file location
 if [ -z $OPENAS2_CONFIG_FILE ]; then

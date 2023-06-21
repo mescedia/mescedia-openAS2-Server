@@ -5,10 +5,11 @@
                sql_timestamp_format="yyyy-MM-dd HH:mm:ss.SSS"
                as2_message_id_format="$date.yyyyMMddHHmmssZ$-$rand.123$-$msg.sender.as2_id$_$msg.receiver.as2_id$_$msg.attributes.filename$"
                as2_receive_message_filename_fallback="$rand.shortUUID$"
-               console.logger.enabled="true"
-               file.logger.enabled="true"
+               console.logger.enabled="false"
+               file.logger.enabled="false"
                socket.logger.enabled="false"
                email.logger.enabled="false"
+               log4j2.logger.enabled="true"
                console.command.processor.enabled="true"
                socket.command.processor.enabled="false"
                restapi.command.processor.enabled="true"
@@ -94,6 +95,11 @@
               enabled="$properties.socket.logger.enabled$"
               ipaddr="127.0.0.1"
               portid="19999"/>
+
+       <logger classname="org.openas2.logging.Log4J2Logger"
+            enabled="$properties.log4j2.logger.enabled$"
+       />
+
    </loggers>
    <commands classname="org.openas2.cmd.XMLCommandRegistry"
              filename="%home%/commands.xml"/>
@@ -106,13 +112,13 @@
                         userid="userID"
                         password="pWd"
                         response_format="xml"/>
-      <commandProcessor classname="org.openas2.cmd.processor.RestCommandProcessor" 
+      <commandProcessor classname="org.openas2.cmd.processor.RestCommandProcessor"
                         enabled="$properties.restapi.command.processor.enabled$"
                         baseuri="http://localhost:8443"
                         ssl_protocol="TLS"
                         ssl_keystore="$properties.ssl_keystore$"
                         ssl_keystore_password="$properties.ssl_keystore_password$"
-                        userid="userID" 
+                        userid="userID"
                         password="pWd" />
    </commandProcessors>
    <processor classname="org.openas2.processor.DefaultProcessor"
@@ -127,7 +133,7 @@
       <!-- This directory polling module will parse the filename to get a sender, receiver and name of file to send to partner.
 		     For instance, a file named MyComapny_OID-PartnerB_OID-OrderID-745634.edi would be sent from MyCompany to PartnerB.
 		     The name of the file sent to the partner will be "OrderID-745634.edi" -->
-      <!-- 
+      <!--
       <module classname="org.openas2.processor.receiver.AS2DirectoryPollingModule"
               outboxdir="$properties.storageBaseDir$/toAny"
               errordir="$properties.storageBaseDir$/toAny/error"
@@ -218,7 +224,7 @@
            interval="5"
            defaults="sender.as2_id=$partnership.sender.as2_id$, receiver.as2_id=$partnership.receiver.as2_id$"
            sendfilename="true"
-           mimetype="application/EDI-X12"/>
+           mimetype="application/EDI-consent"/> <!-- application/EDI-X12 application/EDIFACT -->
    <partnerships classname="org.openas2.partner.XMLPartnershipFactory"
                  filename="$properties.partnership_file$"
                  interval="120"/>
